@@ -15,7 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
@@ -40,21 +40,21 @@ public class CustomerRecordsScreenController implements Initializable {
     @FXML
     private Label activeLabel;
     @FXML
-    private TextField id;
+    private TextField nameText;
     @FXML
-    private TextField name;
+    private TextField addressText;
     @FXML
-    private TextField inv;
+    private TextField address2Text;
     @FXML
-    private TextField priceCost;
+    private TextField cityText;
     @FXML
-    private TextField max;
+    private TextField countryText;
     @FXML
-    private TextField min;
+    private TextField postalCodeText;
     @FXML
-    private TextField machineId;
+    private TextField phoneText;
     @FXML
-    private TextField companyName;
+    private CheckBox activeCheckBox;
     @FXML
     private Button save;
     @FXML
@@ -67,87 +67,84 @@ public class CustomerRecordsScreenController implements Initializable {
  
     @FXML 
     private void InitializeWindow() {
-        addCustomerLabel.setText("Add Part");
+        addCustomerLabel.setText("Add Customer");
         addCustomerLabel.setLayoutX(40);
-        addCustomerLabel.setLayoutY(50);
-        addCustomerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 15; -fx-text-fill: blue");
+        addCustomerLabel.setLayoutY(20);
+        addCustomerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: midnightblue");
         
         nameLabel.setText("Name");
         nameLabel.setLayoutX(40);
-        nameLabel.setLayoutY(150);
+        nameLabel.setLayoutY(110);
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        name.setLayoutX(120);
-        name.setLayoutY(150);
+        nameText.setLayoutX(120);
+        nameText.setLayoutY(110);
         
-        addressLabel.setText("Inv");
+        addressLabel.setText("Address");
         addressLabel.setLayoutX(40);
-        addressLabel.setLayoutY(200);
+        addressLabel.setLayoutY(160);
         addressLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        address2Label.setText("Inv");
+        addressText.setLayoutX(120);
+        addressText.setLayoutY(160);
+        
+        address2Label.setText("Address 2");
         address2Label.setLayoutX(40);
-        address2Label.setLayoutY(200);
+        address2Label.setLayoutY(210);
         address2Label.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+
+        address2Text.setLayoutX(120);
+        address2Text.setLayoutY(210);
         
-        inv.setLayoutX(120);
-        inv.setLayoutY(200);
-        
-        cityLabel.setText("Price/Cost");
+        cityLabel.setText("City");
         cityLabel.setLayoutX(40);
-        cityLabel.setLayoutY(250);
+        cityLabel.setLayoutY(260);
         cityLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        priceCost.setLayoutX(120);
-        priceCost.setLayoutY(250);
+        cityText.setLayoutX(120);
+        cityText.setLayoutY(260);
 
-        countryLabel.setText("Min");
+        countryLabel.setText("Country");
         countryLabel.setLayoutX(40);
-        countryLabel.setLayoutY(300);
+        countryLabel.setLayoutY(310);
         countryLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        min.setLayoutX(120);
-        min.setLayoutY(300);
-        min.setPrefSize(50, 10);
+        countryText.setLayoutX(120);
+        countryText.setLayoutY(310);
         
-        postalCodeLabel.setText("Max");
-        postalCodeLabel.setLayoutX(185);
-        postalCodeLabel.setLayoutY(300);
+        postalCodeLabel.setText("Postal Code");
+        postalCodeLabel.setLayoutX(40);
+        postalCodeLabel.setLayoutY(360);
         postalCodeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        max.setLayoutX(220);
-        max.setLayoutY(300);
-        max.setPrefSize(50, 10);
+        postalCodeText.setLayoutX(120);
+        postalCodeText.setLayoutY(360);
         
-        phoneLabel.setText("Machine ID");
+        phoneLabel.setText("Phone");
         phoneLabel.setLayoutX(40);
-        phoneLabel.setLayoutY(350);
+        phoneLabel.setLayoutY(410);
         phoneLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
-        phoneLabel.setVisible(false);
         
-        machineId.setLayoutX(120);
-        machineId.setLayoutY(350);
-        machineId.setVisible(false);
+        phoneText.setLayoutX(120);
+        phoneText.setLayoutY(410);
         
-        activeLabel.setText("Company Name");
+        activeLabel.setText("Active");
         activeLabel.setLayoutX(40);
-        activeLabel.setLayoutY(350);
+        activeLabel.setLayoutY(460);
         activeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
-        activeLabel.setVisible(false);
         
-        companyName.setLayoutX(120);
-        companyName.setLayoutY(350);
-        companyName.setVisible(false);
+        activeCheckBox.setLayoutX(120);
+        activeCheckBox.setLayoutY(460);
         
         save.setText("Save");
         save.setPrefSize(80, 30);
         save.setLayoutX(190);
-        save.setLayoutY(400);
+        save.setLayoutY(510);
         
         cancel.setText("Cancel");
         cancel.setPrefSize(80, 30);
         cancel.setLayoutX(90);
-        cancel.setLayoutY(400);
+        cancel.setLayoutY(510);
     }
     
     @FXML

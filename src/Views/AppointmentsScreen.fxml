@@ -7,5 +7,25 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AppointmentsScreenController">
-    
+         <children>
+        <Label fx:id="addAppointmentLabel"/>
+        <Label fx:id="nameLabel"/>
+        <Label fx:id="addressLabel"/>
+        <Label fx:id="address2Label"/>
+        <Label fx:id="cityLabel"/>
+        <Label fx:id="countryLabel"/>
+        <Label fx:id="postalCodeLabel"/>
+        <Label fx:id="phoneLabel"/>
+        <Label fx:id="activeLabel"/>
+        <TextField fx:id="nameText"/>
+        <TextField fx:id="addressText"/>
+        <TextField fx:id="address2Text"/>
+        <TextField fx:id="cityText"/>
+        <TextField fx:id="countryText"/>
+        <TextField fx:id="postalCodeText"/>
+        <TextField fx:id="phoneText"/>
+        <CheckBox fx:id="activeCheckBox"/>
+        <Button fx:id="save" onAction="#saveClick"/>
+        <Button fx:id="cancel" onAction="#cancelClick"/>
+    </children>
 </AnchorPane>
