@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
@@ -129,23 +130,16 @@ public class LoginScreenController implements Initializable {
         languages.setPrefSize(100, 30);
         languages.setLayoutX(500);
         languages.setLayoutY(10);
-        languages.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue observable, String oldValue, String newValue) {
-                if (newValue.equals("French"))
-                    try {
-                        GetFrenchLoadScreen(new ActionEvent());
-                } catch (IOException ex) {
-                    Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (newValue.equals("English"))
-                    try {
-                        GetEnlighLoadScreen(new ActionEvent());
-                } catch (IOException ex) {
-                    Logger.getLogger(LoginScreenController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        languages.setValue("English");
+    }
+    
+        @FXML 
+    private void languageSelection(ActionEvent event) throws IOException{
+        String value = languages.getSelectionModel().getSelectedItem();
+        if (value.equals("French"))
+            GetFrenchLoadScreen(event);
+        if (value.equals("English"))
+            GetEnlighLoadScreen(event);
     }
     
     @FXML
@@ -178,7 +172,7 @@ public class LoginScreenController implements Initializable {
         Scene scene = new Scene(addProductWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Modify Product");
+        stage.setTitle("Calendar");
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();

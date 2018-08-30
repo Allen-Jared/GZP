@@ -5,6 +5,7 @@
  */
 package gzp;
 
+import DataModels.DatabaseConnection;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -31,6 +32,7 @@ public class GZP extends Application {
         primaryStage.setTitle("Customer Scheduling");
         primaryStage.setScene(scene);
         primaryStage.show();
+        //DatabaseConnection.SetupConnection();
     }
 
     /**

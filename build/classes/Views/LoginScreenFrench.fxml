@@ -22,7 +22,7 @@
             <TextField fx:id="passwordText"/>
             <Button fx:id="loginButton" onAction="#loginButtonClick"/>
             <Label fx:id="languageLabel"/>
-            <ComboBox fx:id="languages"/>
+            <ComboBox fx:id="languages" onAction="#languageSelection"/>
         </children>
     </AnchorPane>
 </AnchorPane>

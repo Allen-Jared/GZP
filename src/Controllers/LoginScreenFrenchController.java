@@ -1,8 +1,13 @@
 package Controllers;
 
+import com.sun.glass.ui.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,7 +101,7 @@ public class LoginScreenFrenchController implements Initializable {
         username.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
         
         usernameText.setPrefSize(160, 30);
-        usernameText.setLayoutX(255);
+        usernameText.setLayoutX(300);
         usernameText.setLayoutY(85);
         
         password.setText(" Mot de passe:");
@@ -105,7 +110,7 @@ public class LoginScreenFrenchController implements Initializable {
         password.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
         
         passwordText.setPrefSize(160, 30);
-        passwordText.setLayoutX(255);
+        passwordText.setLayoutX(300);
         passwordText.setLayoutY(145);
         
         loginButton.setText("S'identifier");
@@ -114,15 +119,49 @@ public class LoginScreenFrenchController implements Initializable {
         loginButton.setLayoutY(200);
         
         languageLabel.setText("La langue:");
-        languageLabel.setLayoutX(435);
+        languageLabel.setLayoutX(489);
         languageLabel.setLayoutY(15);
         languageLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
         
         ObservableList<String> options = FXCollections.observableArrayList("English", "French");
         languages.setItems(options);
         languages.setPrefSize(100, 30);
-        languages.setLayoutX(500);
+        languages.setLayoutX(554);
         languages.setLayoutY(10);
+        languages.setValue("French");
+    }
+    
+    @FXML 
+    private void languageSelection(ActionEvent event) throws IOException{
+        String value = languages.getSelectionModel().getSelectedItem();
+        if (value.equals("French"))
+            GetFrenchLoadScreen(event);
+        if (value.equals("English"))
+            GetEnlighLoadScreen(event);
+    }
+    
+     @FXML
+    private void GetEnlighLoadScreen(ActionEvent event) throws IOException{
+        Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/LoginScreen.fxml"));
+        Scene scene = new Scene(addProductWindow);
+        Stage stage = new Stage();
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.setTitle("Customer Scheduling");
+        stage.setScene(scene);
+        stage.show();
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+    }
+    
+    @FXML
+    private void GetFrenchLoadScreen(ActionEvent event) throws IOException{
+        Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/LoginScreenFrench.fxml"));
+        Scene scene = new Scene(addProductWindow);
+        Stage stage = new Stage();
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.setTitle("Programmation du client");
+        stage.setScene(scene);
+        stage.show();
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
     
     @FXML
@@ -131,7 +170,7 @@ public class LoginScreenFrenchController implements Initializable {
         Scene scene = new Scene(addProductWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Modify Product");
+        stage.setTitle("Calendar");
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();

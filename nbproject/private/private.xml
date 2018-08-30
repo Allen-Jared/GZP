@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Controllers/AppointmentsScreenController.java</file>
             <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Controllers/LoginScreenFrenchController.java</file>
-            <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Views/LoginScreen.fxml</file>
+            <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Controllers/AppointmentsScreenController.java</file>
+            <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Views/CalendarScreen.fxml</file>
             <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Controllers/CalendarScreenController.java</file>
-            <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Views/LoginScreenFrench.fxml</file>
+            <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Views/CustomerRecordsScreen.fxml</file>
             <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Controllers/LoginScreenController.java</file>
             <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/gzp/GZP.java</file>
-            <file>file:/C:/Users/jared_allen/Documents/NetBeansProjects/GZP/src/Controllers/CustomerRecordsScreenController.java</file>
         </group>
     </open-files>
 </project-private>
