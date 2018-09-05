@@ -7,6 +7,7 @@ package Controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -110,11 +111,12 @@ public class CalendarScreenController implements Initializable {
     
     @FXML
     private void logoutButtonClick(ActionEvent event) throws IOException{
+        ResourceBundle resBun = ResourceBundle.getBundle("LanguageBundles", Locale.getDefault());
         Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/LoginScreen.fxml"));
         Scene scene = new Scene(addProductWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Customer Scheduling");
+        stage.setTitle(resBun.getString("title"));
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();
