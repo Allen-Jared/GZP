@@ -6,25 +6,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AppointmentsScreenController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="350" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AppointmentsScreenController">
          <children>
         <Label fx:id="addAppointmentLabel"/>
-        <Label fx:id="nameLabel"/>
-        <Label fx:id="addressLabel"/>
-        <Label fx:id="address2Label"/>
-        <Label fx:id="cityLabel"/>
-        <Label fx:id="countryLabel"/>
-        <Label fx:id="postalCodeLabel"/>
-        <Label fx:id="phoneLabel"/>
-        <Label fx:id="activeLabel"/>
-        <TextField fx:id="nameText"/>
-        <TextField fx:id="addressText"/>
-        <TextField fx:id="address2Text"/>
-        <TextField fx:id="cityText"/>
-        <TextField fx:id="countryText"/>
-        <TextField fx:id="postalCodeText"/>
-        <TextField fx:id="phoneText"/>
-        <CheckBox fx:id="activeCheckBox"/>
+        <Label fx:id="titleLabel"/>
+        <Label fx:id="descriptionLabel"/>
+        <Label fx:id="locationLabel"/>
+        <Label fx:id="contactLabel"/>
+        <Label fx:id="typeLabel"/>
+        <Label fx:id="urlLabel"/>
+        <Label fx:id="startTimeLabel"/>
+        <Label fx:id="endTimeLabel"/>
+        <TextField fx:id="titleText"/>
+        <TextField fx:id="descriptionText"/>
+        <TextField fx:id="locationText"/>
+        <TextField fx:id="contactText"/>
+        <TextField fx:id="typeText"/>
+        <TextField fx:id="urlText"/>
+        <TextField fx:id="startTimeText"/>
+        <TextField fx:id="endTimeText"/>
         <Button fx:id="save" onAction="#saveClick"/>
         <Button fx:id="cancel" onAction="#cancelClick"/>
     </children>

@@ -24,37 +24,37 @@ public class AppointmentsScreenController implements Initializable {
    @FXML
     private Label addAppointmentLabel;  
     @FXML
-    private Label nameLabel;
+    private Label titleLabel;
     @FXML
-    private Label addressLabel;
+    private Label descriptionLabel;
     @FXML
-    private Label address2Label;
+    private Label locationLabel;
     @FXML
-    private Label cityLabel;
+    private Label contactLabel;
     @FXML
-    private Label countryLabel;
+    private Label typeLabel;
     @FXML
-    private Label postalCodeLabel;
+    private Label urlLabel;
     @FXML
-    private Label phoneLabel;
+    private Label startTimeLabel;
     @FXML
-    private Label activeLabel;
+    private Label endTimeLabel;
     @FXML
-    private TextField nameText;
+    private TextField titleText;
     @FXML
-    private TextField addressText;
+    private TextField descriptionText;
     @FXML
-    private TextField address2Text;
+    private TextField locationText;
     @FXML
-    private TextField cityText;
+    private TextField contactText;
     @FXML
-    private TextField countryText;
+    private TextField typeText;
     @FXML
-    private TextField postalCodeText;
+    private TextField urlText;
     @FXML
-    private TextField phoneText;
+    private TextField startTimeText;
     @FXML
-    private CheckBox activeCheckBox;
+    private TextField endTimeText;
     @FXML
     private Button save;
     @FXML
@@ -67,74 +67,74 @@ public class AppointmentsScreenController implements Initializable {
  
     @FXML 
     private void InitializeWindow() {
-        addAppointmentLabel.setText("Add Customer");
+        addAppointmentLabel.setText("Add Appointment");
         addAppointmentLabel.setLayoutX(40);
         addAppointmentLabel.setLayoutY(20);
         addAppointmentLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: midnightblue");
         
-        nameLabel.setText("Name");
-        nameLabel.setLayoutX(40);
-        nameLabel.setLayoutY(110);
-        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        titleLabel.setText("Title");
+        titleLabel.setLayoutX(40);
+        titleLabel.setLayoutY(110);
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        nameText.setLayoutX(120);
-        nameText.setLayoutY(110);
+        titleText.setLayoutX(120);
+        titleText.setLayoutY(110);
         
-        addressLabel.setText("Address");
-        addressLabel.setLayoutX(40);
-        addressLabel.setLayoutY(160);
-        addressLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        descriptionLabel.setText("Description");
+        descriptionLabel.setLayoutX(40);
+        descriptionLabel.setLayoutY(160);
+        descriptionLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        addressText.setLayoutX(120);
-        addressText.setLayoutY(160);
+        descriptionText.setLayoutX(120);
+        descriptionText.setLayoutY(160);
         
-        address2Label.setText("Address 2");
-        address2Label.setLayoutX(40);
-        address2Label.setLayoutY(210);
-        address2Label.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        locationLabel.setText("Location");
+        locationLabel.setLayoutX(40);
+        locationLabel.setLayoutY(210);
+        locationLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
 
-        address2Text.setLayoutX(120);
-        address2Text.setLayoutY(210);
+        locationText.setLayoutX(120);
+        locationText.setLayoutY(210);
         
-        cityLabel.setText("City");
-        cityLabel.setLayoutX(40);
-        cityLabel.setLayoutY(260);
-        cityLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        contactLabel.setText("Contact");
+        contactLabel.setLayoutX(40);
+        contactLabel.setLayoutY(260);
+        contactLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        cityText.setLayoutX(120);
-        cityText.setLayoutY(260);
+        contactText.setLayoutX(120);
+        contactText.setLayoutY(260);
 
-        countryLabel.setText("Country");
-        countryLabel.setLayoutX(40);
-        countryLabel.setLayoutY(310);
-        countryLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        typeLabel.setText("Type");
+        typeLabel.setLayoutX(40);
+        typeLabel.setLayoutY(310);
+        typeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        countryText.setLayoutX(120);
-        countryText.setLayoutY(310);
+        typeText.setLayoutX(120);
+        typeText.setLayoutY(310);
         
-        postalCodeLabel.setText("Postal Code");
-        postalCodeLabel.setLayoutX(40);
-        postalCodeLabel.setLayoutY(360);
-        postalCodeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        urlLabel.setText("URL");
+        urlLabel.setLayoutX(40);
+        urlLabel.setLayoutY(360);
+        urlLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        postalCodeText.setLayoutX(120);
-        postalCodeText.setLayoutY(360);
+        urlText.setLayoutX(120);
+        urlText.setLayoutY(360);
         
-        phoneLabel.setText("Phone");
-        phoneLabel.setLayoutX(40);
-        phoneLabel.setLayoutY(410);
-        phoneLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        startTimeLabel.setText("Start Time");
+        startTimeLabel.setLayoutX(40);
+        startTimeLabel.setLayoutY(410);
+        startTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        phoneText.setLayoutX(120);
-        phoneText.setLayoutY(410);
+        startTimeText.setLayoutX(120);
+        startTimeText.setLayoutY(410);
         
-        activeLabel.setText("Active");
-        activeLabel.setLayoutX(40);
-        activeLabel.setLayoutY(460);
-        activeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        endTimeLabel.setText("End Time");
+        endTimeLabel.setLayoutX(40);
+        endTimeLabel.setLayoutY(460);
+        endTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        activeCheckBox.setLayoutX(120);
-        activeCheckBox.setLayoutY(460);
+        endTimeText.setLayoutX(120);
+        endTimeText.setLayoutY(460);
         
         save.setText("Save");
         save.setPrefSize(80, 30);
@@ -154,17 +154,17 @@ public class AppointmentsScreenController implements Initializable {
             alert.setHeaderText(null);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK)
-                returnToMainScreen(event);
+                returnToCalendarScreen(event);
             else
                 return;
     }
     
-    private void returnToMainScreen(ActionEvent event) throws IOException{
-        Parent mainWindow = FXMLLoader.load(getClass().getResource("/Views/MainScreen.fxml"));
+    private void returnToCalendarScreen(ActionEvent event) throws IOException{
+        Parent mainWindow = FXMLLoader.load(getClass().getResource("/Views/CalendarScreen.fxml"));
         Scene scene = new Scene(mainWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Inventory Management System");
+        stage.setTitle("Calendar");
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();
@@ -172,7 +172,7 @@ public class AppointmentsScreenController implements Initializable {
     
     @FXML
     private void saveClick(ActionEvent event) throws IOException{
-        returnToMainScreen(event);
+        returnToCalendarScreen(event);
     }   
     
 }

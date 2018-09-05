@@ -154,17 +154,17 @@ public class CustomerRecordsScreenController implements Initializable {
             alert.setHeaderText(null);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK)
-                returnToMainScreen(event);
+                returnToCalendarScreen(event);
             else
                 return;
     }
     
-    private void returnToMainScreen(ActionEvent event) throws IOException{
-        Parent mainWindow = FXMLLoader.load(getClass().getResource("/Views/MainScreen.fxml"));
+    private void returnToCalendarScreen(ActionEvent event) throws IOException{
+        Parent mainWindow = FXMLLoader.load(getClass().getResource("/Views/CalendarScreen.fxml"));
         Scene scene = new Scene(mainWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Inventory Management System");
+        stage.setTitle("Calendar");
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();
@@ -172,7 +172,7 @@ public class CustomerRecordsScreenController implements Initializable {
     
     @FXML
     private void saveClick(ActionEvent event) throws IOException{
-        returnToMainScreen(event);
+        returnToCalendarScreen(event);
     }
 
 }
