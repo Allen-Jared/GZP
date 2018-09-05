@@ -42,7 +42,7 @@ public class GZP extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Locale.setDefault(Locale.FRANCE);
+        Locale.setDefault(Locale.FRANCE);
         launch(args);
     }
     
