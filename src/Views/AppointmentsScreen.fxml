@@ -27,5 +27,35 @@
         <TextField fx:id="endTimeText"/>
         <Button fx:id="save" onAction="#saveClick"/>
         <Button fx:id="cancel" onAction="#cancelClick"/>
+        
+        <AnchorPane fx:id="addCustomerPane">
+            <children>
+                <Button  fx:id="customerSearchButton" onAction="#customerSearchButtonClick"/>
+                <TextField  fx:id="customerSearchTextField"/>
+                <TableView  fx:id="customerTable">
+                    <columns>
+                        <TableColumn fx:id="customerId"/>
+                        <TableColumn fx:id="customerName"/>
+                        <TableColumn fx:id="customerPhoneNumber"/>
+                        <TableColumn fx:id="customerAddress"/>
+                    </columns>
+                </TableView>
+                <Button  fx:id="addcustomer" onAction="#addCustomerClick"/>
+            </children>
+        </AnchorPane>
+        
+        <AnchorPane fx:id="removeCustomerPane">
+            <children>
+                <TableView  fx:id="associatedCustomerTable">
+                    <columns>
+                        <TableColumn fx:id="rCustomerId"/>
+                        <TableColumn fx:id="rCustomerName"/>
+                        <TableColumn fx:id="rCustomerPhoneNumber"/>
+                        <TableColumn fx:id="rCustomerAddress"/>
+                    </columns>
+                </TableView>
+                <Button  fx:id="deleteCustomer" onAction="#deleteCustomerClick"/>
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>

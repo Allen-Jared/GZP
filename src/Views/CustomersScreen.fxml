@@ -6,6 +6,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CustomersScreenController">
-    
+<AnchorPane id="AnchorPane" prefHeight="10" prefWidth="10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CustomersScreenController">
+     <children>
+        <AnchorPane fx:id="customersPane">
+            <children>
+                <Label  fx:id="customersLabel"/>
+                <Button  fx:id="customerSearchButton" onAction="#customerSearchButtonClick"/>
+                <TextField  fx:id="customerSearchTextField"/>
+                <TableView  fx:id="customersTable">
+                    <columns>
+                        <TableColumn fx:id="customerId"/>
+                        <TableColumn fx:id="customerName"/>
+                        <TableColumn fx:id="customerPhoneNumber"/>
+                        <TableColumn fx:id="customerAddress"/>
+                    </columns>
+                </TableView>
+                <Button  fx:id="returnToCalendarScreen" onAction="#returnToCalendarScreen"/>
+                <Button  fx:id="addCustomer" onAction="#addCustomer"/>
+                <Button  fx:id="modifyCustomer" onAction="#modifyCustomer"/>
+                <Button  fx:id="deleteCustomer" onAction="#deleteCustomer"/>
+            </children>
+        </AnchorPane>
+    </children>
 </AnchorPane>

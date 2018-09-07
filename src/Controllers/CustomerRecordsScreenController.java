@@ -67,7 +67,7 @@ public class CustomerRecordsScreenController implements Initializable {
  
     @FXML 
     private void InitializeWindow() {
-        addCustomerLabel.setText("Add Customer");
+        addCustomerLabel.setText("Customer");
         addCustomerLabel.setLayoutX(40);
         addCustomerLabel.setLayoutY(20);
         addCustomerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: midnightblue");
@@ -154,17 +154,17 @@ public class CustomerRecordsScreenController implements Initializable {
             alert.setHeaderText(null);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK)
-                returnToCalendarScreen(event);
+                returnToCustomersScreen(event);
             else
                 return;
     }
     
-    private void returnToCalendarScreen(ActionEvent event) throws IOException{
-        Parent mainWindow = FXMLLoader.load(getClass().getResource("/Views/CalendarScreen.fxml"));
+    private void returnToCustomersScreen(ActionEvent event) throws IOException{
+        Parent mainWindow = FXMLLoader.load(getClass().getResource("/Views/CustomersScreen.fxml"));
         Scene scene = new Scene(mainWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Calendar");
+        stage.setTitle("Customer Records");
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();
@@ -172,7 +172,7 @@ public class CustomerRecordsScreenController implements Initializable {
     
     @FXML
     private void saveClick(ActionEvent event) throws IOException{
-        returnToCalendarScreen(event);
+        returnToCustomersScreen(event);
     }
 
 }

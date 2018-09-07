@@ -6,6 +6,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddAppointmentScreenController">
-    
+<AnchorPane id="AnchorPane" prefHeight="10" prefWidth="10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddAppointmentScreenController">
+     <children>
+        <AnchorPane fx:id="appointmentsPane">
+            <children>
+                <Label  fx:id="appointmentsLabel"/>
+                <Button  fx:id="appointmentsSearchButton" onAction="#appointmentsSearchButtonClick"/>
+                <TextField  fx:id="appointmentsSearchTextField"/>
+                <TableView  fx:id="appointmentsTable">
+                    <columns>
+                        <TableColumn fx:id="appointmentTitle"/>
+                        <TableColumn fx:id="appointmentContact"/>
+                        <TableColumn fx:id="appointmentStartTime"/>
+                        <TableColumn fx:id="appointmentDate"/>
+                    </columns>
+                </TableView>
+                <Button  fx:id="returnToCalendarScreen" onAction="#returnToCalendarScreen"/>
+                <Button  fx:id="addAppointment" onAction="#addAppointment"/>
+                <Button  fx:id="modifyAppointment" onAction="#modifyAppointment"/>
+                <Button  fx:id="deleteAppointment" onAction="#deleteAppointment"/>
+            </children>
+        </AnchorPane>
+    </children>
 </AnchorPane>

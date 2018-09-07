@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import DataModels.AppointmentModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -21,12 +22,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -49,6 +57,34 @@ public class CalendarScreenController implements Initializable {
     private Button appointmentsButton;
     @FXML
     private Button logoutButton;
+    @FXML
+    private Pane calendarPane;
+    @FXML
+    private RadioButton weeklyView;
+    @FXML
+    private RadioButton monthlyView;  
+    @FXML
+    private TableView<AppointmentModel> calendarTable;
+    @FXML
+    private TableColumn<AppointmentModel, Integer> appointmentTitle;
+    @FXML
+    private TableColumn<AppointmentModel, String> appointmentContact;
+    @FXML
+    private TableColumn<AppointmentModel, Integer> appointmentStartTime;
+    @FXML
+    private TableColumn<AppointmentModel, Double> appointmentDate;
+    @FXML
+    private Label monthlyAppointmentsLabel;
+    @FXML
+    private Button monthlyAppointments;
+    @FXML
+    private Label consultantScheduelLabel;
+    @FXML
+    private Button consultantScheduel;
+    @FXML
+    private Label thirdReportLabel;
+    @FXML
+    private Button thirdReport;
   
      @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,14 +95,9 @@ public class CalendarScreenController implements Initializable {
         header.setLayoutY(10);
         header.setPadding(new Insets(5,5,5,5));
         
-        location.setText("Location: " + "");//todo determine location
-        location.setLayoutX(10);
-        location.setLayoutY(10);
-        location.setStyle("-fx-font-size: 10; -fx-text-fill: black");
-        
-        title.setText("Customer Scheduling");
-        title.setLayoutX(175);
-        title.setLayoutY(10);
+        title.setText("Customer Scheduling Calendar");
+        title.setLayoutX(20);
+        title.setLayoutY(8);
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: midnightblue");
         
         customersButton.setText("Customers");
@@ -81,13 +112,82 @@ public class CalendarScreenController implements Initializable {
         
         logoutButton.setText("Logout");
         logoutButton.setPrefSize(100, 30);
-        logoutButton.setLayoutX(500);
+        logoutButton.setLayoutX(363);
         logoutButton.setLayoutY(55);
+        
+        calendarPane.setPrefSize(475, 325);
+        calendarPane.setLayoutX(10);
+        calendarPane.setLayoutY(120);
+        calendarPane.setBorder(new Border(new BorderStroke(Color.BLACK, 
+            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        
+        weeklyView.setText("Weekly");
+        weeklyView.setPrefSize(90, 10);
+        weeklyView.setLayoutX(150);
+        weeklyView.setLayoutY(25);
+        
+        monthlyView.setText("Monthly");
+        monthlyView.setPrefSize(90, 10);
+        monthlyView.setLayoutX(250);
+        monthlyView.setLayoutY(25);
+        
+        ToggleGroup toggleGroup = new ToggleGroup();
+        weeklyView.setToggleGroup(toggleGroup);
+        monthlyView.setToggleGroup(toggleGroup);
+        
+        calendarTable.setPrefSize(400, 200);
+        calendarTable.setLayoutX(40);
+        calendarTable.setLayoutY(65);
+        calendarTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                
+        appointmentTitle.setText("Title");
+        
+        appointmentContact.setText("Contact");
+        
+        appointmentStartTime.setText("Start Time");
+        
+        appointmentDate.setText("Date");
+        
+        appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        appointmentContact.setCellValueFactory(new PropertyValueFactory<>("name"));
+        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        appointmentDate.setCellValueFactory(new PropertyValueFactory<>("price"));
+        loadWeeklyView();
+        
+        monthlyAppointmentsLabel.setText("Monthly Appointments");
+        monthlyAppointmentsLabel.setLayoutX(10);
+        monthlyAppointmentsLabel.setLayoutY(280);
+        monthlyAppointmentsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
+        
+        monthlyAppointments.setText("Report");
+        monthlyAppointments.setPrefSize(80, 30);
+        monthlyAppointments.setLayoutX(10);
+        monthlyAppointments.setLayoutY(300);
+        
+        consultantScheduelLabel.setText("Consultant Schedules");
+        consultantScheduelLabel.setLayoutX(180);
+        consultantScheduelLabel.setLayoutY(280);
+        consultantScheduelLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
+        
+        consultantScheduel.setText("Report");
+        consultantScheduel.setPrefSize(80, 30);
+        consultantScheduel.setLayoutX(180);
+        consultantScheduel.setLayoutY(300);
+        
+        thirdReportLabel.setText("Third Report Choice");
+        thirdReportLabel.setLayoutX(330);
+        thirdReportLabel.setLayoutY(280);
+        thirdReportLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
+        
+        thirdReport.setText("Report");
+        thirdReport.setPrefSize(80, 30);
+        thirdReport.setLayoutX(330);
+        thirdReport.setLayoutY(300);
     }
     
     @FXML
     private void customersButtonClick(ActionEvent event) throws IOException{
-        Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/CustomerRecordsScreen.fxml"));
+        Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/CustomersScreen.fxml"));
         Scene scene = new Scene(addProductWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
@@ -99,7 +199,7 @@ public class CalendarScreenController implements Initializable {
 
     @FXML
     private void appointmentsButtonClick(ActionEvent event) throws IOException{
-        Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/AppointmentsScreen.fxml"));
+        Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/AddAppointmentScreen.fxml"));
         Scene scene = new Scene(addProductWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
@@ -120,5 +220,30 @@ public class CalendarScreenController implements Initializable {
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();
+    } 
+    
+    @FXML
+    private void weeklyViewClick(ActionEvent event) throws IOException{
+        
+    } 
+    
+    @FXML
+    private void loadWeeklyView(){
+    }
+    
+    @FXML
+    private void monthlyViewClick(ActionEvent event) throws IOException{
+    } 
+    
+    @FXML
+    private void monthlyAppointmentsClick(ActionEvent event) throws IOException{
+    } 
+    
+    @FXML
+    private void consultantScheduelClick(ActionEvent event) throws IOException{
+    } 
+    
+    @FXML
+    private void thirdReportClick(ActionEvent event) throws IOException{
     } 
 }

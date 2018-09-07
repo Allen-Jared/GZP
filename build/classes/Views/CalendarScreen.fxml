@@ -6,14 +6,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CalendarScreenController">
+<AnchorPane id="AnchorPane" prefHeight="10" prefWidth="10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CalendarScreenController">
     <AnchorPane fx:id="header">
         <children>
-            <Label fx:id="location"/>
             <Label fx:id="title"/>
             <Button fx:id="customersButton" onAction="#customersButtonClick"/>
             <Button fx:id="appointmentsButton" onAction="#appointmentsButtonClick"/>
             <Button fx:id="logoutButton" onAction="#logoutButtonClick"/>
+        </children>
+    </AnchorPane>
+    <AnchorPane fx:id="calendarPane">
+        <children>
+            <RadioButton fx:id="weeklyView" onAction="#weeklyViewClick"/>
+            <RadioButton fx:id="monthlyView" onAction="#monthlyViewClick"/>
+            <TableView  fx:id="calendarTable">
+                <columns>
+                    <TableColumn fx:id="appointmentTitle"/>
+                    <TableColumn fx:id="appointmentContact"/>
+                    <TableColumn fx:id="appointmentStartTime"/>
+                    <TableColumn fx:id="appointmentDate"/>
+                </columns>
+            </TableView>
+            <Label fx:id="monthlyAppointmentsLabel"/>
+            <Button fx:id="monthlyAppointments" onAction="#monthlyAppointmentsClick"/>
+            <Label fx:id="consultantScheduelLabel"/>
+            <Button fx:id="consultantScheduel" onAction="#consultantScheduelClick"/>
+            <Label fx:id="thirdReportLabel"/>
+            <Button fx:id="thirdReport" onAction="#thirdReportClick"/>
         </children>
     </AnchorPane>
 </AnchorPane>
