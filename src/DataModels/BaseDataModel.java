@@ -4,41 +4,40 @@ package DataModels;
 import java.sql.Timestamp;
 
 public class BaseDataModel {
-    private Timestamp _createDate;
-    private String _createdBy;
-    private Timestamp _lastUpdate;
-    private String _lastUpdateBy;
+    private Timestamp createDate;
+    private String createdBy;
+    private Timestamp lastUpdate;
+    private String lastUpdateBy;
 
     public Timestamp getCreateDate() {
-        return _createDate;
+        return createDate;
     }
 
-    public void setCreateDate(Timestamp _createDate) {
-        this._createDate = _createDate;
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 
     public String getCreatedBy() {
-        return _createdBy;
+        return createdBy;
     }
 
-    public void setCreatedBy(String _createdBy) {
-        this._createdBy = _createdBy;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Timestamp getLastUpdate() {
-        return _lastUpdate;
+        return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp _lastUpdate) {
-        this._lastUpdate = _lastUpdate;
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public String getLastUpdateBy() {
-        return _lastUpdateBy;
+        return lastUpdateBy;
     }
 
-    public void setLastUpdateBy(String _lastUpdateBy) {
-        this._lastUpdateBy = _lastUpdateBy;
+    public void setLastUpdateBy(String lastUpdateBy) {
+        this.lastUpdateBy = lastUpdateBy;
     }
-    
 }

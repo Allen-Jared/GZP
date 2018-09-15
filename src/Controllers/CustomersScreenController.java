@@ -1,7 +1,9 @@
 
 package Controllers;
 
+import DataModels.AddressModel;
 import DataModels.CustomerModel;
+import DataModels.DatabaseConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -32,7 +34,10 @@ import javafx.stage.Stage;
 
 public class CustomersScreenController implements Initializable {
     
-    private String _customerToModify;
+    private static CustomerModel customerToModify;
+    public static CustomerModel getCustomerToModify() {
+        return customerToModify;
+    }
     
     @FXML
     private Pane customersPane;
@@ -52,6 +57,8 @@ public class CustomersScreenController implements Initializable {
     private TableColumn<CustomerModel, String> customerPhoneNumber;
     @FXML
     private TableColumn<CustomerModel, String> customerAddress;
+    @FXML
+    private TableColumn<CustomerModel, String> customerActive;
     @FXML
     private Button returnToCalendarScreen;
     @FXML
@@ -96,10 +103,13 @@ public class CustomersScreenController implements Initializable {
         
         customerAddress.setText("Address");
         
+        customerActive.setText("Active");
+        
         customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        customerPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
-        customerAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        customerPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        customerAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerActive.setCellValueFactory(new PropertyValueFactory<>("active"));
         LoadCustomerTableData();
         
         returnToCalendarScreen.setText("Calendar");
@@ -125,17 +135,17 @@ public class CustomersScreenController implements Initializable {
         
     @FXML
     private void LoadCustomerTableData(){
-//        customersTable.setItems(CustomerModel.GetAllCustomers()); 
+        customersTable.setItems(DatabaseConnection.getAllCustomers()); 
     }
     
     @FXML
     private void customerSearchButtonClick() {
-//        loadSearchPartData(customerSearchTextField.getText());
+        loadSearchCustomerData(customerSearchTextField.getText());
     }
     
     @FXML
     private void loadSearchCustomerData(String searchCriteria){
-//        customersTable.setItems(CustomerModel.getAllMatchingCustomerNames(searchCriteria));
+        customersTable.setItems(DatabaseConnection.getAllMatchingCustomerNames(searchCriteria));
     }
     
     @FXML
@@ -152,14 +162,13 @@ public class CustomersScreenController implements Initializable {
     
     @FXML
     private void modifyCustomer(ActionEvent event) throws IOException {
-//        CustomerModel customerToModify = CustomerModel.lookupPart(customersTable.getSelectionModel().getSelectedItem().getCustomerName());//this getCustomerName needs to be fixed
-//        _customerToModify = customerToModify.getCustomerName(); //also needs to be fixed
+        customerToModify = DatabaseConnection.getAllMatchingCustomerNames(customersTable.getSelectionModel().getSelectedItem().getCustomerName()).get(0);
         ShowModifyCustomerWindow(event);
     }
     
     @FXML
     private void ShowModifyCustomerWindow(ActionEvent event) throws IOException{
-        Parent modifyPartWindow = FXMLLoader.load(getClass().getResource("/Views/CustomerRecordsScreen.fxml"));
+        Parent modifyPartWindow = FXMLLoader.load(getClass().getResource("/Views/ModifyCustomerRecordsScreen.fxml"));
         Scene scene = new Scene(modifyPartWindow);
         Stage stage = new Stage();
         stage.resizableProperty().setValue(Boolean.FALSE);
@@ -188,9 +197,10 @@ public class CustomersScreenController implements Initializable {
             alert.setHeaderText(null);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK){
-//                Part partToDelete = Inventory.lookupPart(partsTable.getSelectionModel().getSelectedItem().getPartID());
-//                Inventory.DeletePart(partToDelete.getPartID());
-//                LoadPartsTableData();
+                CustomerModel customer = DatabaseConnection.getAllMatchingCustomerNames(customersTable.getSelectionModel().getSelectedItem().getCustomerName()).get(0);
+                DatabaseConnection.deleteCustomer(customer.getCustomerId());
+                DatabaseConnection.deleteAddress(customer.getAddressId());
+                LoadCustomerTableData();
             }
             else
                 return;

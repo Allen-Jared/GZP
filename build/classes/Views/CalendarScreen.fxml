@@ -23,16 +23,17 @@
                 <columns>
                     <TableColumn fx:id="appointmentTitle"/>
                     <TableColumn fx:id="appointmentContact"/>
+                    <TableColumn fx:id="appointmentCustomer"/>
                     <TableColumn fx:id="appointmentStartTime"/>
-                    <TableColumn fx:id="appointmentDate"/>
+                    <TableColumn fx:id="appointmentType"/>
                 </columns>
             </TableView>
             <Label fx:id="monthlyAppointmentsLabel"/>
             <Button fx:id="monthlyAppointments" onAction="#monthlyAppointmentsClick"/>
             <Label fx:id="consultantScheduelLabel"/>
             <Button fx:id="consultantScheduel" onAction="#consultantScheduelClick"/>
-            <Label fx:id="thirdReportLabel"/>
-            <Button fx:id="thirdReport" onAction="#thirdReportClick"/>
+            <Label fx:id="customerReportLabel"/>
+            <Button fx:id="customerReport" onAction="#customerReportClick"/>
         </children>
     </AnchorPane>
 </AnchorPane>

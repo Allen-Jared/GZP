@@ -27,12 +27,17 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-public class CustomerRecordsScreenController implements Initializable {
+public class ModifyCustomerRecordsScreenController implements Initializable {
+    CustomerModel customer = CustomersScreenController.getCustomerToModify();
+    AddressModel address = DatabaseConnection.getAddressById(customer.getAddressId());
+    CityModel city = DatabaseConnection.getCityById(address.getCityId());
+    
+    @FXML
+    private Label customerId;  
     @FXML
     private Label addCustomerLabel;  
     @FXML
@@ -51,6 +56,8 @@ public class CustomerRecordsScreenController implements Initializable {
     private Label phoneLabel;
     @FXML
     private Label activeLabel;
+    @FXML
+    private Label customerIdValue;
     @FXML
     private TextField nameText;
     @FXML
@@ -79,10 +86,19 @@ public class CustomerRecordsScreenController implements Initializable {
  
     @FXML 
     private void InitializeWindow() {
-        addCustomerLabel.setText("Add Customer");
+        addCustomerLabel.setText("Modify Customer");
         addCustomerLabel.setLayoutX(40);
         addCustomerLabel.setLayoutY(20);
         addCustomerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: midnightblue");
+        
+        customerId.setText("Customer Id");
+        customerId.setLayoutX(40);
+        customerId.setLayoutY(70);
+        customerId.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        
+        customerIdValue.setLayoutX(120);
+        customerIdValue.setLayoutY(70);
+        customerIdValue.setText(Integer.toString(customer.getCustomerId()));
         
         nameLabel.setText("Name");
         nameLabel.setLayoutX(40);
@@ -91,6 +107,7 @@ public class CustomerRecordsScreenController implements Initializable {
         
         nameText.setLayoutX(120);
         nameText.setLayoutY(110);
+        nameText.setText(customer.getCustomerName());
         
         addressLabel.setText("Address");
         addressLabel.setLayoutX(40);
@@ -99,6 +116,7 @@ public class CustomerRecordsScreenController implements Initializable {
         
         addressText.setLayoutX(120);
         addressText.setLayoutY(160);
+        addressText.setText(address.getAddress());
         
         address2Label.setText("Address 2");
         address2Label.setLayoutX(40);
@@ -107,6 +125,7 @@ public class CustomerRecordsScreenController implements Initializable {
 
         address2Text.setLayoutX(120);
         address2Text.setLayoutY(210);
+        address2Text.setText(address.getAddress2());
         
         cityLabel.setText("City");
         cityLabel.setLayoutX(40);
@@ -116,6 +135,8 @@ public class CustomerRecordsScreenController implements Initializable {
         cityChoiceBox.setLayoutX(120);
         cityChoiceBox.setLayoutY(260);
         populateCityChoices();
+        cityChoiceBox.getSelectionModel().select(city.getCity());
+
         
         countryLabel.setText("Country");
         countryLabel.setLayoutX(40);
@@ -133,6 +154,7 @@ public class CustomerRecordsScreenController implements Initializable {
         
         postalCodeText.setLayoutX(120);
         postalCodeText.setLayoutY(360);
+        postalCodeText.setText(address.getPostalCode());
         
         phoneLabel.setText("Phone");
         phoneLabel.setLayoutX(40);
@@ -141,6 +163,7 @@ public class CustomerRecordsScreenController implements Initializable {
         
         phoneText.setLayoutX(120);
         phoneText.setLayoutY(410);
+        phoneText.setText(address.getPhone());
         
         activeLabel.setText("Active");
         activeLabel.setLayoutX(40);
@@ -149,6 +172,9 @@ public class CustomerRecordsScreenController implements Initializable {
         
         activeCheckBox.setLayoutX(120);
         activeCheckBox.setLayoutY(460);
+        if(customer.getActive() == 1){
+            activeCheckBox.setSelected(true);
+        }
         
         save.setText("Save");
         save.setPrefSize(80, 30);
@@ -167,7 +193,6 @@ public class CustomerRecordsScreenController implements Initializable {
         ObservableList<String> cityNames = FXCollections.observableArrayList();
         cities.forEach((c) -> cityNames.add(c.getCity()));
         cityChoiceBox.setItems(cityNames);
-        cityChoiceBox.getSelectionModel().selectFirst();
     }
     
     @FXML
@@ -175,6 +200,7 @@ public class CustomerRecordsScreenController implements Initializable {
         ObservableList<CityModel> cities = DatabaseConnection.getAllCities();
         CityModel city  = cities.filtered((c) -> c.getCity().equals(cityChoiceBox.getSelectionModel().getSelectedItem().toString())).get(0);
         countryLabelValue.setText(DatabaseConnection.GetCountryById(city.getCountryId()).toString());
+
     }
     
     @FXML
@@ -206,6 +232,7 @@ public class CustomerRecordsScreenController implements Initializable {
         AddressModel addressModel = new AddressModel();
         Date date = new Date();
         
+        addressModel.setAddressId(address.getAddressId());
         addressModel.setAddress(addressText.getText());
         addressModel.setAddress2(address2Text.getText());
         addressModel.setCityId(DatabaseConnection.getCityIdByName(cityChoiceBox.getSelectionModel().getSelectedItem().toString()));
@@ -215,18 +242,17 @@ public class CustomerRecordsScreenController implements Initializable {
         addressModel.setCreatedBy(LoginScreenController.getCurrentUser());
         addressModel.setLastUpdate(new Timestamp(date.getTime()));
         addressModel.setLastUpdateBy(LoginScreenController.getCurrentUser());
-        int addressId = DatabaseConnection.insertNewAddress(addressModel);
+        DatabaseConnection.updateAddress(addressModel);
         
+        customerModel.setCustomerId(customer.getCustomerId());
         customerModel.setCustomerName(nameText.getText());
-        customerModel.setAddressId(addressId);
+        customerModel.setAddressId(address.getAddressId());
         if(activeCheckBox.isSelected()){
             customerModel.setActive(1);
         }else{customerModel.setActive(0);}
-        customerModel.setCreateDate(new Timestamp(date.getTime()));
-        customerModel.setCreatedBy(LoginScreenController.getCurrentUser());
         customerModel.setLastUpdate(new Timestamp(date.getTime()));
         customerModel.setLastUpdateBy(LoginScreenController.getCurrentUser());
-        DatabaseConnection.insertNewCustomer(customerModel);
+        DatabaseConnection.updateCustomer(customerModel);
         
         returnToCustomersScreen(event);
     }

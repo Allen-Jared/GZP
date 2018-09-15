@@ -2,13 +2,22 @@
 package DataModels;
 
 public class CountryModel extends BaseDataModel {
-    private String _country;
+    private int countryId;
+    private String country;
 
-    public String getCountry() {
-        return _country;
+    public int getCountryId() {
+        return countryId;
     }
 
-    public void setCountry(String _country) {
-        this._country = _country;
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

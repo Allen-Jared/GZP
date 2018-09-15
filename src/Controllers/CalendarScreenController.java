@@ -6,6 +6,7 @@
 package Controllers;
 
 import DataModels.AppointmentModel;
+import DataModels.DatabaseConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -44,7 +45,6 @@ import javafx.stage.Stage;
  * @author jared_allen
  */
 public class CalendarScreenController implements Initializable {
-
     @FXML
     private AnchorPane header;
     @FXML
@@ -70,9 +70,11 @@ public class CalendarScreenController implements Initializable {
     @FXML
     private TableColumn<AppointmentModel, String> appointmentContact;
     @FXML
-    private TableColumn<AppointmentModel, Integer> appointmentStartTime;
+    private TableColumn<AppointmentModel, String> appointmentCustomer;
     @FXML
-    private TableColumn<AppointmentModel, Double> appointmentDate;
+    private TableColumn<AppointmentModel, String> appointmentStartTime;
+    @FXML
+    private TableColumn<AppointmentModel, Integer> appointmentType;
     @FXML
     private Label monthlyAppointmentsLabel;
     @FXML
@@ -82,9 +84,9 @@ public class CalendarScreenController implements Initializable {
     @FXML
     private Button consultantScheduel;
     @FXML
-    private Label thirdReportLabel;
+    private Label customerReportLabel;
     @FXML
-    private Button thirdReport;
+    private Button customerReport;
   
      @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -115,7 +117,7 @@ public class CalendarScreenController implements Initializable {
         logoutButton.setLayoutX(363);
         logoutButton.setLayoutY(55);
         
-        calendarPane.setPrefSize(475, 325);
+        calendarPane.setPrefSize(475, 350);
         calendarPane.setLayoutX(10);
         calendarPane.setLayoutY(120);
         calendarPane.setBorder(new Border(new BorderStroke(Color.BLACK, 
@@ -134,6 +136,7 @@ public class CalendarScreenController implements Initializable {
         ToggleGroup toggleGroup = new ToggleGroup();
         weeklyView.setToggleGroup(toggleGroup);
         monthlyView.setToggleGroup(toggleGroup);
+        toggleGroup.selectToggle(weeklyView);
         
         calendarTable.setPrefSize(400, 200);
         calendarTable.setLayoutX(40);
@@ -142,47 +145,50 @@ public class CalendarScreenController implements Initializable {
                 
         appointmentTitle.setText("Title");
         
-        appointmentContact.setText("Contact");
+        appointmentContact.setText("User");
         
-        appointmentStartTime.setText("Start Time");
+        appointmentCustomer.setText("Customer");
         
-        appointmentDate.setText("Date");
+        appointmentStartTime.setText("Place/Time");
         
-        appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        appointmentContact.setCellValueFactory(new PropertyValueFactory<>("name"));
-        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        appointmentDate.setCellValueFactory(new PropertyValueFactory<>("price"));
+        appointmentType.setText("Type");
+        
+        appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        appointmentCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentType.setCellValueFactory(new PropertyValueFactory<>("type"));
         loadWeeklyView();
         
         monthlyAppointmentsLabel.setText("Monthly Appointments");
-        monthlyAppointmentsLabel.setLayoutX(10);
+        monthlyAppointmentsLabel.setLayoutX(20);
         monthlyAppointmentsLabel.setLayoutY(280);
         monthlyAppointmentsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
         
         monthlyAppointments.setText("Report");
         monthlyAppointments.setPrefSize(80, 30);
-        monthlyAppointments.setLayoutX(10);
+        monthlyAppointments.setLayoutX(20);
         monthlyAppointments.setLayoutY(300);
         
         consultantScheduelLabel.setText("Consultant Schedules");
-        consultantScheduelLabel.setLayoutX(180);
+        consultantScheduelLabel.setLayoutX(200);
         consultantScheduelLabel.setLayoutY(280);
         consultantScheduelLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
         
         consultantScheduel.setText("Report");
         consultantScheduel.setPrefSize(80, 30);
-        consultantScheduel.setLayoutX(180);
+        consultantScheduel.setLayoutX(200);
         consultantScheduel.setLayoutY(300);
         
-        thirdReportLabel.setText("Third Report Choice");
-        thirdReportLabel.setLayoutX(330);
-        thirdReportLabel.setLayoutY(280);
-        thirdReportLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
+        customerReportLabel.setText("All Customers");
+        customerReportLabel.setLayoutX(350);
+        customerReportLabel.setLayoutY(280);
+        customerReportLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: midnightblue");
         
-        thirdReport.setText("Report");
-        thirdReport.setPrefSize(80, 30);
-        thirdReport.setLayoutX(330);
-        thirdReport.setLayoutY(300);
+        customerReport.setText("Report");
+        customerReport.setPrefSize(80, 30);
+        customerReport.setLayoutX(350);
+        customerReport.setLayoutY(300);
     }
     
     @FXML
@@ -224,15 +230,19 @@ public class CalendarScreenController implements Initializable {
     
     @FXML
     private void weeklyViewClick(ActionEvent event) throws IOException{
-        
+        loadWeeklyView();
     } 
     
     @FXML
     private void loadWeeklyView(){
+        ObservableList<AppointmentModel> appointments = DatabaseConnection.getWeeklyCalendarView();
+        calendarTable.setItems(appointments);
     }
     
     @FXML
     private void monthlyViewClick(ActionEvent event) throws IOException{
+        ObservableList<AppointmentModel> appointments = DatabaseConnection.getMonthlyCalendarView();
+        calendarTable.setItems(appointments);
     } 
     
     @FXML
@@ -244,6 +254,6 @@ public class CalendarScreenController implements Initializable {
     } 
     
     @FXML
-    private void thirdReportClick(ActionEvent event) throws IOException{
+    private void customerReportClick(ActionEvent event) throws IOException{
     } 
 }

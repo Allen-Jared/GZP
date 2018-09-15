@@ -2,23 +2,60 @@
 package DataModels;
 
 public class CustomerModel extends BaseDataModel{
-    private String _customerName;
-    private int _active;
+    private int customerId;
+    private String customerName;
+    private int addressId;
+    private String address;
+    private String phone;
+    private int active;
 
-    public String getCustomerName() {
-        return _customerName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCustomerName(String _customerName) {
-        this._customerName = _customerName;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
     public int getActive() {
-        return _active;
+        return active;
     }
 
-    public void setActive(int _active) {
-        this._active = _active;
+    public void setActive(int active) {
+        this.active = active;
     }
+    
     
 }

@@ -17,8 +17,9 @@
                     <columns>
                         <TableColumn fx:id="appointmentTitle"/>
                         <TableColumn fx:id="appointmentContact"/>
+                        <TableColumn fx:id="appointmentCustomer"/>
                         <TableColumn fx:id="appointmentStartTime"/>
-                        <TableColumn fx:id="appointmentDate"/>
+                        <TableColumn fx:id="appointmentType"/>
                     </columns>
                 </TableView>
                 <Button  fx:id="returnToCalendarScreen" onAction="#returnToCalendarScreen"/>

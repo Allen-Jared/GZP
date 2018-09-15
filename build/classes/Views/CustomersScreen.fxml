@@ -19,6 +19,7 @@
                         <TableColumn fx:id="customerName"/>
                         <TableColumn fx:id="customerPhoneNumber"/>
                         <TableColumn fx:id="customerAddress"/>
+                        <TableColumn fx:id="customerActive"/>
                     </columns>
                 </TableView>
                 <Button  fx:id="returnToCalendarScreen" onAction="#returnToCalendarScreen"/>

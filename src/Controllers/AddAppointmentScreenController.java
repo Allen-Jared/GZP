@@ -1,7 +1,9 @@
 
 package Controllers;
 
+import DataModels.AppointmentModel;
 import DataModels.CustomerModel;
+import DataModels.DatabaseConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -43,15 +45,17 @@ public class AddAppointmentScreenController implements Initializable {
     @FXML
     private TextField appointmentsSearchTextField;
     @FXML
-    private TableView<CustomerModel> appointmentsTable;
+    private TableView<AppointmentModel> appointmentsTable;
     @FXML
-    private TableColumn<CustomerModel, Integer> appointmentTitle;
+    private TableColumn<AppointmentModel, Integer> appointmentTitle;
     @FXML
-    private TableColumn<CustomerModel, String> appointmentContact;
+    private TableColumn<AppointmentModel, String> appointmentContact;
     @FXML
-    private TableColumn<CustomerModel, String> appointmentStartTime;
+    private TableColumn<AppointmentModel, String> appointmentCustomer;
     @FXML
-    private TableColumn<CustomerModel, String> appointmentDate;
+    private TableColumn<AppointmentModel, String> appointmentStartTime;
+    @FXML
+    private TableColumn<AppointmentModel, Integer> appointmentType;
     @FXML
     private Button returnToCalendarScreen;
     @FXML
@@ -90,16 +94,19 @@ public class AddAppointmentScreenController implements Initializable {
                 
         appointmentTitle.setText("Title");
         
-        appointmentContact.setText("Contact");
+        appointmentContact.setText("User");
         
-        appointmentStartTime.setText("Start Time");
+        appointmentCustomer.setText("Customer");
         
-        appointmentDate.setText("Date");
+        appointmentStartTime.setText("Place/Time");
         
-        appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        appointmentContact.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
-        appointmentDate.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        appointmentType.setText("Type");
+        
+        appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        appointmentCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentType.setCellValueFactory(new PropertyValueFactory<>("type"));
         LoadAppointmentTableData();
         
         returnToCalendarScreen.setText("Calendar");
@@ -125,17 +132,17 @@ public class AddAppointmentScreenController implements Initializable {
         
     @FXML
     private void LoadAppointmentTableData(){
-//        customersTable.setItems(CustomerModel.GetAllCustomers()); 
+        appointmentsTable.setItems(DatabaseConnection.getAllAppointments()); 
     }
     
     @FXML
     private void appointmentsSearchButtonClick() {
-//        loadSearchAppointmentData(customerSearchTextField.getText());
+        loadSearchAppointmentData(appointmentsSearchTextField.getText());
     }
     
     @FXML
     private void loadSearchAppointmentData(String searchCriteria){
-//        customersTable.setItems(CustomerModel.getAllMatchingCustomerNames(searchCriteria));
+        appointmentsTable.setItems(DatabaseConnection.getAllMatchingAppointmentTitles(searchCriteria));
     }
     
     @FXML

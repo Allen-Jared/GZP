@@ -2,41 +2,58 @@
 package DataModels;
 
 public class AddressModel extends BaseDataModel {
-    private String _address;
-    private String _address2;
-    private String _postalCode;
-    private String _phone;
+    private int addressId;
+    private String address;
+    private String address2;
+    private int cityId;
+    private String postalCode;
+    private String phone;
 
-    public String getAddress() {
-        return _address;
+    public int getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(String _address) {
-        this._address = _address;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAddress2() {
-        return _address2;
+        return address2;
     }
 
-    public void setAddress2(String _address2) {
-        this._address2 = _address2;
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
     public String getPostalCode() {
-        return _postalCode;
+        return postalCode;
     }
 
-    public void setPostalCode(String _postalCode) {
-        this._postalCode = _postalCode;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getPhone() {
-        return _phone;
+        return phone;
     }
 
-    public void setPhone(String _phone) {
-        this._phone = _phone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
-   
 }

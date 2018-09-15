@@ -1,11 +1,11 @@
 package Controllers;
 
+import DataModels.DatabaseConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +14,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -30,7 +29,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class LoginScreenController implements Initializable {
-
+    private static String CurrentUser;
+    public static String getCurrentUser() {
+        return CurrentUser;
+    }
+    
     @FXML
     private AnchorPane header;
     @FXML
@@ -108,75 +111,26 @@ public class LoginScreenController implements Initializable {
         loginButton.setPrefSize(100, 30);
         loginButton.setLayoutX(110);
         loginButton.setLayoutY(200);
-        
-        //REDO THIS PART
-//         mainWindowLabel.setText("Inventory Management System");
-//        mainWindowLabel.setLayoutX(310);
-//        mainWindowLabel.setLayoutY(30);
-//        mainWindowLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 24; -fx-text-fill: blue");
-//        
-//        exitProgramButton.setText("Exit");
-//        exitProgramButton.setPrefSize(60, 30);
-//        exitProgramButton.setLayoutX(910);
-//        exitProgramButton.setLayoutY(425);
-//        
-//        partsPane.setPrefSize(475, 325);
-//        partsPane.setLayoutX(10);
-//        partsPane.setLayoutY(75);
-//        partsPane.setBorder(new Border(new BorderStroke(Color.BLACK, 
-//            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-//        
-//        partsLabel.setText("Parts");
-//        partsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 18;");
-//        partsLabel.setLayoutX(40);
-//        partsLabel.setLayoutY(20);
-//        
-//        partsSearchButton.setText("Search");
-//        partsSearchButton.setPrefSize(80, 30);
-//        partsSearchButton.setLayoutX(190);
-//        partsSearchButton.setLayoutY(20);
-//        
-//        partsSearchTextField.setPrefSize(160, 30);
-//        partsSearchTextField.setLayoutX(280);
-//        partsSearchTextField.setLayoutY(20);
-//        
-//        partsTable.setPrefSize(400, 200);
-//        partsTable.setLayoutX(40);
-//        partsTable.setLayoutY(65);
-//        partsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-//                
-//        partId.setText("ID");
-//        
-//        partName.setText("Name");
-//        
-//        partInventoryLevel.setText("Inventory Level");
-//        
-//        partPriceCostPerUnit.setText("Cost Per Unit");
-//        
-//        partId.setCellValueFactory(new PropertyValueFactory<>("partID"));
-//        partName.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        partInventoryLevel.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-//        partPriceCostPerUnit.setCellValueFactory(new PropertyValueFactory<>("price"));
-//        LoadPartsTableData();
-//        
-//        addPart.setText("Add");
-//        addPart.setPrefSize(80, 30);
-//        addPart.setLayoutX(160);
-//        addPart.setLayoutY(280);
-//
-//        modifyPart.setText("Modify");
-//        modifyPart.setPrefSize(80, 30);
-//        modifyPart.setLayoutX(260);
-//        modifyPart.setLayoutY(280);
-//
-//        deletePart.setText("Delete");
-//        deletePart.setPrefSize(80, 30);
-//        deletePart.setLayoutX(360);
-//        deletePart.setLayoutY(280);
     }
     
     @FXML
     private void loginButtonClick(ActionEvent event) throws IOException{
+        ResourceBundle resBun = ResourceBundle.getBundle("LanguageBundles", Locale.getDefault());
+        String username = usernameText.getText();
+        String password = passwordText.getText();
+        if(DatabaseConnection.VerifyUser(username, password)){
+            CurrentUser = usernameText.getText();
+            showCalendarScreen(event);
+        }else{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(resBun.getString("error"));
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        }
+
+    }
+    
+    private void showCalendarScreen(ActionEvent event) throws IOException{
         Parent addProductWindow = FXMLLoader.load(getClass().getResource("/Views/CalendarScreen.fxml"));
         Scene scene = new Scene(addProductWindow);
         Stage stage = new Stage();
@@ -185,20 +139,5 @@ public class LoginScreenController implements Initializable {
         stage.setScene(scene);
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();
-    }
-    
-    @FXML
-    private void customersButtonClick(){
-        
-    }
-
-    @FXML
-    private void appointmentsButtonClick(){
-        
-    }
-    
-    @FXML
-    private void logoutButtonClick(){
-        
     }
 }

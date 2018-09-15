@@ -1,6 +1,9 @@
 package Controllers;
 
+import DataModels.CityModel;
 import DataModels.CustomerModel;
+import DataModels.DatabaseConnection;
+import DataModels.UserModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -18,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,8 +32,12 @@ import javafx.stage.Stage;
 
 
 public class AppointmentsScreenController implements Initializable {
-   @FXML
+    @FXML
     private Label addAppointmentLabel;  
+    @FXML
+    private Label customerLabel;
+    @FXML
+    private ChoiceBox customerChoiceBox;
     @FXML
     private Label titleLabel;
     @FXML
@@ -53,52 +61,19 @@ public class AppointmentsScreenController implements Initializable {
     @FXML
     private TextField locationText;
     @FXML
-    private TextField contactText;
+    private ChoiceBox contactChoiceBox;
     @FXML
     private TextField typeText;
     @FXML
     private TextField urlText;
     @FXML
-    private TextField startTimeText;
+    private ChoiceBox startTimeChoiceBox;
     @FXML
-    private TextField endTimeText;
+    private Label endTimeLabelValue;
     @FXML
     private Button save;
     @FXML
     private Button cancel;
-    
-    @FXML
-    private AnchorPane addCustomerPane;
-    @FXML
-    private Button customerSearchButton;
-    @FXML
-    private TextField customerSearchTextField;
-    @FXML
-    private TableView<CustomerModel> customerTable;
-    @FXML
-    private TableColumn<CustomerModel, Integer> customerId;
-    @FXML
-    private TableColumn<CustomerModel, String> customerName;
-    @FXML
-    private TableColumn<CustomerModel, String> customerPhoneNumber;
-    @FXML
-    private TableColumn<CustomerModel, String> customerAddress;
-    @FXML
-    private Button addcustomer;
-    @FXML
-    private AnchorPane removeCustomerPane;
-    @FXML
-    private TableView<CustomerModel> associatedCustomerTable;
-    @FXML
-    private TableColumn<CustomerModel, Integer> rCustomerId;
-    @FXML
-    private TableColumn<CustomerModel, String> rCustomerName;
-    @FXML
-    private TableColumn<CustomerModel, Integer> rCustomerPhoneNumber;
-    @FXML
-    private TableColumn<CustomerModel, Double> rCustomerAddress;
-    @FXML
-    private Button deleteCustomer;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -111,6 +86,15 @@ public class AppointmentsScreenController implements Initializable {
         addAppointmentLabel.setLayoutX(40);
         addAppointmentLabel.setLayoutY(20);
         addAppointmentLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: midnightblue");
+        
+        customerLabel.setText("Customer");
+        customerLabel.setLayoutX(40);
+        customerLabel.setLayoutY(70);
+        customerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        
+        customerChoiceBox.setLayoutX(120);
+        customerChoiceBox.setLayoutY(70);
+        populateCustomerChoices();
         
         titleLabel.setText("Title");
         titleLabel.setLayoutX(40);
@@ -141,9 +125,10 @@ public class AppointmentsScreenController implements Initializable {
         contactLabel.setLayoutY(260);
         contactLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        contactText.setLayoutX(120);
-        contactText.setLayoutY(260);
-
+        contactChoiceBox.setLayoutX(120);
+        contactChoiceBox.setLayoutY(260);
+        populateUserChoices();
+        
         typeLabel.setText("Type");
         typeLabel.setLayoutX(40);
         typeLabel.setLayoutY(310);
@@ -165,16 +150,26 @@ public class AppointmentsScreenController implements Initializable {
         startTimeLabel.setLayoutY(410);
         startTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        startTimeText.setLayoutX(120);
-        startTimeText.setLayoutY(410);
+        startTimeChoiceBox.setLayoutX(120);
+        startTimeChoiceBox.setLayoutY(410);
+        ObservableList<String> times = FXCollections.observableArrayList();
+        times.add("9:00 AM");
+        times.add("10:00 AM");
+        times.add("11:00 AM");
+        times.add("12:00 PM");
+        times.add("1:00 PM");
+        times.add("2:00 PM");
+        times.add("3:00 PM");
+        times.add("4:00 PM");
+        startTimeChoiceBox.setItems(times);
         
         endTimeLabel.setText("End Time");
         endTimeLabel.setLayoutX(40);
         endTimeLabel.setLayoutY(460);
         endTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
-        endTimeText.setLayoutX(120);
-        endTimeText.setLayoutY(460);
+        endTimeLabelValue.setLayoutX(120);
+        endTimeLabelValue.setLayoutY(460);
         
         save.setText("Save");
         save.setPrefSize(80, 30);
@@ -185,84 +180,29 @@ public class AppointmentsScreenController implements Initializable {
         cancel.setPrefSize(80, 30);
         cancel.setLayoutX(90);
         cancel.setLayoutY(510);
-        
-        addCustomerPane.setPrefSize(275, 125);
-        addCustomerPane.setLayoutX(275);
-        addCustomerPane.setLayoutY(0);
-        
-        customerSearchButton.setText("Search");
-        customerSearchButton.setPrefSize(80, 30);
-        customerSearchButton.setLayoutX(190);
-        customerSearchButton.setLayoutY(20);
-        
-        customerSearchTextField.setPrefSize(160, 30);
-        customerSearchTextField.setLayoutX(280);
-        customerSearchTextField.setLayoutY(20);
-
-        
-        customerTable.setPrefSize(400, 200);
-        customerTable.setLayoutX(40);
-        customerTable.setLayoutY(65);
-        customerTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-                
-        customerId.setText("ID");
-        
-        customerName.setText("Name");
-        
-        customerPhoneNumber.setText("Phone");
-        
-        customerAddress.setText("Address");
-        
-        customerId.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        customerName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        customerPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        customerAddress.setCellValueFactory(new PropertyValueFactory<>("price"));
-                
-        addcustomer.setText("Add");
-        addcustomer.setPrefSize(80, 30);
-        addcustomer.setLayoutX(350);
-        addcustomer.setLayoutY(275);
-        
-        removeCustomerPane.setPrefSize(275, 125);
-        removeCustomerPane.setLayoutX(275);
-        removeCustomerPane.setLayoutY(300);
-        
-        associatedCustomerTable.setPrefSize(400, 200);
-        associatedCustomerTable.setLayoutX(40);
-        associatedCustomerTable.setLayoutY(65);
-        associatedCustomerTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-                
-        rCustomerId.setText("ID");
-        
-        rCustomerName.setText("Name");
-        
-        rCustomerPhoneNumber.setText("Phone");
-        
-        rCustomerAddress.setText("Address");
-        
-        rCustomerId.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        rCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        rCustomerPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        rCustomerAddress.setCellValueFactory(new PropertyValueFactory<>("price"));
-        SetInitialCustomerTableLoad();
-        
-        deleteCustomer.setText("Delete");
-        deleteCustomer.setPrefSize(80, 30);
-        deleteCustomer.setLayoutX(350);
-        deleteCustomer.setLayoutY(275);
     }
     
     @FXML
-    private void SetInitialCustomerTableLoad(){
-        customerTable.setItems(getInitialCustomerTableData());
+    private void populateCustomerChoices(){
+        ObservableList<CustomerModel> customers = DatabaseConnection.getAllCustomers();
+        ObservableList<String> customerNames = FXCollections.observableArrayList();
+        customers.forEach((c) -> customerNames.add(c.getCustomerName()));
+        customerChoiceBox.setItems(customerNames);
+        customerChoiceBox.getSelectionModel().selectFirst();
     }
     
     @FXML
-    public static ObservableList<CustomerModel> getInitialCustomerTableData(){
-//        for(int i = 0; i < Inventory.getAllParts().size(); i++){
-//            productParts.add(Inventory.getAllParts().get(i));
-//        }
-        return FXCollections.observableArrayList();
+    private void populateUserChoices(){
+        ObservableList<UserModel> users = DatabaseConnection.getAllUsers();
+        ObservableList<String> userNames = FXCollections.observableArrayList();
+        users.forEach((c) -> userNames.add(c.getUserName()));
+        contactChoiceBox.setItems(userNames);
+        contactChoiceBox.getSelectionModel().selectFirst();
+    }
+    
+    @FXML
+    private void chooseStartTime(){
+        startTimeChoiceBox.getSelectionModel().getSelectedItem().toString();
     }
     
     @FXML

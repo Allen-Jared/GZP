@@ -1,59 +1,121 @@
 
 package DataModels;
 
-public class AppointmentModel extends BaseDataModel{
-    private String _title;
-    private String _description;
-    private String _location;
-    private String _contact;
-    private String _type;
-    private String _url;
+import java.sql.Timestamp;
 
-    public String getTitle() {
-        return _title;
+public class AppointmentModel extends BaseDataModel{
+//    appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+//        appointmentContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+//        appointmentCustomer.setCellValueFactory(new PropertyValueFactory<>("customer"));
+//        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("description"));
+//        appointmentType.setCellValueFactory(new PropertyValueFactory<>("type"));
+    private int appointmentId;
+    private int customerId;
+    private String customerName;
+    private int userId;
+    private String title;
+    private String description;
+    private String location;
+    private String contact;
+    private String type;
+    private String url;
+    private Timestamp start;
+    private Timestamp end;
+
+    public int getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setTitle(String _title) {
-        this._title = _title;
+    public void setAppointmentId(int appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+    
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
-    public void setDescription(String _description) {
-        this._description = _description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLocation() {
-        return _location;
+        return location;
     }
 
-    public void setLocation(String _location) {
-        this._location = _location;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getContact() {
-        return _contact;
+        return contact;
     }
 
-    public void setContact(String _contact) {
-        this._contact = _contact;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public String getType() {
-        return _type;
+        return type;
     }
 
-    public void setType(String _type) {
-        this._type = _type;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getUrl() {
-        return _url;
+        return url;
     }
 
-    public void setUrl(String _url) {
-        this._url = _url;
+    public void setUrl(String url) {
+        this.url = url;
     }
+
+    public Timestamp getStart() {
+        return start;
+    }
+
+    public void setStart(Timestamp start) {
+        this.start = start;
+    }
+
+    public Timestamp getEnd() {
+        return end;
+    }
+
+    public void setEnd(Timestamp end) {
+        this.end = end;
+    }
+   
 }
