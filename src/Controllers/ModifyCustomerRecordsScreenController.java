@@ -8,6 +8,7 @@ import DataModels.DatabaseConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -238,9 +239,9 @@ public class ModifyCustomerRecordsScreenController implements Initializable {
         addressModel.setCityId(DatabaseConnection.getCityIdByName(cityChoiceBox.getSelectionModel().getSelectedItem().toString()));
         addressModel.setPostalCode(postalCodeText.getText());
         addressModel.setPhone(phoneText.getText());
-        addressModel.setCreateDate(new Timestamp(date.getTime()));
+        addressModel.setCreateDate(DateHelper.convertLocalDateToUtcTimestamp(DateHelper.convertDateToCorrectFormatString(LocalDateTime.now())));
         addressModel.setCreatedBy(LoginScreenController.getCurrentUser());
-        addressModel.setLastUpdate(new Timestamp(date.getTime()));
+        addressModel.setLastUpdate(DateHelper.convertLocalDateToUtcTimestamp(DateHelper.convertDateToCorrectFormatString(LocalDateTime.now())));
         addressModel.setLastUpdateBy(LoginScreenController.getCurrentUser());
         DatabaseConnection.updateAddress(addressModel);
         
@@ -250,7 +251,7 @@ public class ModifyCustomerRecordsScreenController implements Initializable {
         if(activeCheckBox.isSelected()){
             customerModel.setActive(1);
         }else{customerModel.setActive(0);}
-        customerModel.setLastUpdate(new Timestamp(date.getTime()));
+        customerModel.setLastUpdate(DateHelper.convertLocalDateToUtcTimestamp(DateHelper.convertDateToCorrectFormatString(LocalDateTime.now())));
         customerModel.setLastUpdateBy(LoginScreenController.getCurrentUser());
         DatabaseConnection.updateCustomer(customerModel);
         

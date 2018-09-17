@@ -1,5 +1,6 @@
 package DataModels;
 
+import Controllers.DateHelper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,7 +13,9 @@ import javafx.collections.ObservableList;
 public class DatabaseConnection {
     private static final String queryVerifyUser = "SELECT active FROM user WHERE userName=? AND password=?";
     private static final String queryGetAllUsers = "SELECT * FROM user";
+    private static final String queryGetUserIdByUsername = "SELECT userId FROM user WHERE userName = ?;";
     private static final String queryGetAllAppointments = "SELECT title, description, contact, customerName, url, location, start, end, type FROM appointment a JOIN customer c on a.customerid = c.customerid;";
+    private static final String queryInsertNewAppointment = "INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";  
     private static final String queryGetMatchingAppointments = "SELECT title, description, contact, customerName, url, location, start, end, type FROM appointment a JOIN customer c on a.customerid = c.customerid WHERE title LIKE ?";  
     private static final String queryGetWeeklyView = "SELECT title, description, contact, customerName, url, location, start, end, type FROM appointment a JOIN customer c on a.customerid = c.customerid LIMIT 7";
     private static final String queryGetMonthlyView = "SELECT title, description, contact, customerName, url, location, start, end, type FROM appointment a JOIN customer c on a.customerid = c.customerid LIMIT 30";
@@ -29,10 +32,11 @@ public class DatabaseConnection {
     private static final String queryGetLatestCityId = "SELECT cityId FROM city ORDER BY cityId DESC LIMIT 1;";
     private static final String queryGetLatestCustomerId = "SELECT customerId FROM customer ORDER BY customerId DESC LIMIT 1;";
     private static final String queryGetLatestAddressId = "SELECT addressId FROM address ORDER BY addressId DESC LIMIT 1;";
-    private static final String queryInsertNewAddress = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";  
+    private static final String queryInsertNewAddress = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String queryUpdateAddress = "UPDATE address SET address = ?, address2 = ?, cityId = ?, postalCode = ?, phone = ?, lastUpdate = ?, lastUpdateBy = ? WHERE addressId = ?;";  
     private static final String queryGetAddressById = "SELECT * FROM address WHERE addressId = ?";
     private static final String queryDeleteCustomer = "DELETE FROM customer WHERE customerId = ?";
+    private static final String queryGetCustomerIdByName = "SELECT customerId FROM customer WHERE customerName = ?;";
     private static final String queryDeleteAddress = "DELETE FROM address WHERE addressId = ?";
     
     private static Connection conn = null;
@@ -157,6 +161,30 @@ public class DatabaseConnection {
         return cities;        
     }
     
+    public static void insertNewAppointment(AppointmentModel appointment) {
+        try{
+            //INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            PreparedStatement statement = conn.prepareStatement(queryInsertNewAppointment);
+            statement.setInt(1, appointment.getCustomerId());
+            statement.setInt(2, appointment.getUserId());
+            statement.setString(3, appointment.getTitle());
+            statement.setString(4, appointment.getDescription());
+            statement.setString(5, appointment.getLocation());
+            statement.setString(6, appointment.getContact());
+            statement.setString(7, appointment.getType());
+            statement.setString(8, appointment.getUrl());
+            statement.setString(9, appointment.getStart().toString());
+            statement.setString(10, appointment.getEnd().toString());
+            statement.setString(11, appointment.getCreateDate().toString());
+            statement.setString(12, appointment.getCreatedBy());
+            statement.setString(13, appointment.getLastUpdate().toString());
+            statement.setString(14, appointment.getLastUpdateBy());
+            statement.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+        }       
+    }
+     
     public static int insertNewAddress(AddressModel address){
         try{
             PreparedStatement statement = conn.prepareStatement(queryInsertNewAddress);
@@ -295,6 +323,38 @@ public class DatabaseConnection {
         return customerId;
     }
     
+    public static int getCustomerIdByCustomerName(String customerName) {
+        int cust = 0;
+        try{
+            PreparedStatement statement = conn.prepareStatement(queryGetCustomerIdByName);
+            statement.setString(1, customerName);
+            ResultSet results = statement.executeQuery();
+            while (results.next()){
+                cust = results.getInt("customerId");
+            };
+        } catch (Exception e){
+      
+          e.printStackTrace();
+        }     
+        return cust;
+    }
+    
+    public static int getUserIdByUsername(String username) {
+        int user = 0;
+        try{
+            PreparedStatement statement = conn.prepareStatement(queryGetUserIdByUsername);
+            statement.setString(1, username);
+            ResultSet results = statement.executeQuery();
+            while (results.next()){
+                user = results.getInt("userId");
+            };
+        } catch (Exception e){
+      
+          e.printStackTrace();
+        }     
+        return user;
+    }
+    
     public static int getCityIdByName(String cityName){
         int cityId = 0;
         try{
@@ -353,6 +413,11 @@ public class DatabaseConnection {
                 appointment.setTitle(String.join(" ", results.getString("title"), "-", results.getString("description")));
                 appointment.setContact(results.getString("contact"));
                 appointment.setCustomerName(results.getString("customerName"));
+                
+                String start = results.getTimestamp("start").toString();
+                String localStart = DateHelper.convertUtcTimestampToLocalDateString(start);
+                String end = results.getTimestamp("end").toString();
+                
                 appointment.setLocation(String.join(" ", results.getString("location"), "--", "Start", results.getTimestamp("start").toString(), "-", "End", results.getTimestamp("end").toString(), "--", results.getString("url")));
                 appointment.setType(results.getString("type"));
                 appointments.add(appointment);

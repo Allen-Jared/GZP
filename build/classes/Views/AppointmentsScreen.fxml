@@ -17,6 +17,7 @@
         <Label fx:id="contactLabel"/>
         <Label fx:id="typeLabel"/>
         <Label fx:id="urlLabel"/>
+        <Label fx:id="dateLabel"/>
         <Label fx:id="startTimeLabel"/>
         <Label fx:id="endTimeLabel"/>
         <TextField fx:id="titleText"/>
@@ -25,6 +26,7 @@
         <ChoiceBox fx:id="contactChoiceBox"/>
         <TextField fx:id="typeText"/>
         <TextField fx:id="urlText"/>
+        <ChoiceBox fx:id="dateChoiceBox"/>
         <ChoiceBox fx:id="startTimeChoiceBox" onAction="#chooseStartTime"/>
         <Label fx:id="endTimeLabelValue"/>
         <Button fx:id="save" onAction="#saveClick"/>

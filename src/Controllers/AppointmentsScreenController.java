@@ -1,11 +1,23 @@
 package Controllers;
 
+import DataModels.AddressModel;
+import DataModels.AppointmentModel;
 import DataModels.CityModel;
 import DataModels.CustomerModel;
 import DataModels.DatabaseConnection;
 import DataModels.UserModel;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -51,6 +63,8 @@ public class AppointmentsScreenController implements Initializable {
     @FXML
     private Label urlLabel;
     @FXML
+    private Label dateLabel;
+    @FXML
     private Label startTimeLabel;
     @FXML
     private Label endTimeLabel;
@@ -66,6 +80,8 @@ public class AppointmentsScreenController implements Initializable {
     private TextField typeText;
     @FXML
     private TextField urlText;
+    @FXML
+    private ChoiceBox dateChoiceBox;
     @FXML
     private ChoiceBox startTimeChoiceBox;
     @FXML
@@ -145,41 +161,72 @@ public class AppointmentsScreenController implements Initializable {
         urlText.setLayoutX(120);
         urlText.setLayoutY(360);
         
+        dateLabel.setText("Date");
+        dateLabel.setLayoutX(40);
+        dateLabel.setLayoutY(410);
+        dateLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
+        
+        dateChoiceBox.setLayoutX(120);
+        dateChoiceBox.setLayoutY(410);
+        ObservableList<String> dates = FXCollections.observableArrayList();
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss.S"); 
+        LocalDateTime ldt = LocalDateTime.now();  
+        for(int i = 0; i < 30; i++){
+            if(ldt.plusDays(i).getDayOfWeek().toString().equals("MONDAY")){
+                dates.add(ldt.plusDays(i).format(df).substring(0, 10));
+            }
+            if(ldt.plusDays(i).getDayOfWeek().toString().equals("TUESDAY")){
+                dates.add(ldt.plusDays(i).format(df).substring(0, 10));
+            }
+            if(ldt.plusDays(i).getDayOfWeek().toString().equals("WEDNESDAY")){
+                dates.add(ldt.plusDays(i).format(df).substring(0, 10));
+            }
+            if(ldt.plusDays(i).getDayOfWeek().toString().equals("THURSDAY")){
+                dates.add(ldt.plusDays(i).format(df).substring(0, 10));
+            }
+            if(ldt.plusDays(i).getDayOfWeek().toString().equals("FRIDAY")){
+                dates.add(ldt.plusDays(i).format(df).substring(0, 10));
+            }
+        }
+        dateChoiceBox.setItems(dates);
+        dateChoiceBox.getSelectionModel().selectFirst();
+        
         startTimeLabel.setText("Start Time");
         startTimeLabel.setLayoutX(40);
-        startTimeLabel.setLayoutY(410);
+        startTimeLabel.setLayoutY(460);
         startTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
         startTimeChoiceBox.setLayoutX(120);
-        startTimeChoiceBox.setLayoutY(410);
+        startTimeChoiceBox.setLayoutY(460);
         ObservableList<String> times = FXCollections.observableArrayList();
-        times.add("9:00 AM");
-        times.add("10:00 AM");
-        times.add("11:00 AM");
-        times.add("12:00 PM");
-        times.add("1:00 PM");
-        times.add("2:00 PM");
-        times.add("3:00 PM");
-        times.add("4:00 PM");
+        times.add("09:00:00.0");
+        times.add("10:00:00.0");
+        times.add("11:00:00.0");
+        times.add("12:00:00.0");
+        times.add("13:00:00.0");
+        times.add("14:00:00.0");
+        times.add("15:00:00.0");
+        times.add("16:00:00.0");
         startTimeChoiceBox.setItems(times);
+        startTimeChoiceBox.getSelectionModel().selectFirst();
         
         endTimeLabel.setText("End Time");
         endTimeLabel.setLayoutX(40);
-        endTimeLabel.setLayoutY(460);
+        endTimeLabel.setLayoutY(510);
         endTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 10; -fx-text-fill: black");
         
         endTimeLabelValue.setLayoutX(120);
-        endTimeLabelValue.setLayoutY(460);
+        endTimeLabelValue.setLayoutY(510);
         
         save.setText("Save");
         save.setPrefSize(80, 30);
         save.setLayoutX(190);
-        save.setLayoutY(510);
+        save.setLayoutY(560);
         
         cancel.setText("Cancel");
         cancel.setPrefSize(80, 30);
         cancel.setLayoutX(90);
-        cancel.setLayoutY(510);
+        cancel.setLayoutY(560);
     }
     
     @FXML
@@ -203,7 +250,13 @@ public class AppointmentsScreenController implements Initializable {
     @FXML
     private void chooseStartTime(){
         startTimeChoiceBox.getSelectionModel().getSelectedItem().toString();
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss.S");
+        String date = dateChoiceBox.getSelectionModel().getSelectedItem().toString();
+        String time = startTimeChoiceBox.getSelectionModel().getSelectedItem().toString();
+        LocalDateTime ldt = LocalDateTime.parse(String.join(" ", date, time), df);
+        endTimeLabelValue.setText(ldt.plusHours(1).format(df));
     }
+    
     
     @FXML
     private void cancelClick(ActionEvent event) throws IOException{
@@ -212,79 +265,10 @@ public class AppointmentsScreenController implements Initializable {
             alert.setHeaderText(null);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK)
-                returnToAppointmentsScreen(event);
+                returnToAppointmentScreen(event);
             else
                 return;
     }
-    
-    private void returnToAppointmentsScreen(ActionEvent event) throws IOException{
-        Parent mainWindow = FXMLLoader.load(getClass().getResource("/Views/AddAppointmentScreen.fxml"));
-        Scene scene = new Scene(mainWindow);
-        Stage stage = new Stage();
-        stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Appointments");
-        stage.setScene(scene);
-        stage.show();
-        ((Node)(event.getSource())).getScene().getWindow().hide();
-    }
-    
-    @FXML
-    private void saveClick(ActionEvent event) throws IOException{
-        returnToAppointmentsScreen(event);
-    }   
-    
-    @FXML
-    private void LoadCustomerTable(){
-//        partsTable.setItems(FXCollections.observableArrayList(productParts)); 
-    }
-    
-    @FXML
-    private void LoadAssociatedCustomerTable(){
-//        associatedPartsTable.setItems(FXCollections.observableArrayList(productAssociatedParts));
-    }
-    
-//    @FXML
-//    private void saveClick(ActionEvent event) throws IOException{
-//        Product product = new Product();
-//        product.setProductId(Integer.parseInt(id.getText()));
-//        product.setName(name.getText());
-//        product.setInStock(Integer.parseInt(inv.getText()));
-//        product.setPrice(Double.parseDouble(priceCost.getText()));
-//        product.setMin(Integer.parseInt(min.getText()));
-//        product.setMax(Integer.parseInt(max.getText()));
-//        
-//        if (Integer.parseInt(min.getText()) > Integer.parseInt(max.getText())){
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setHeaderText(null);
-//            alert.setContentText("Min value cannot be greater than Max value.");
-//            alert.showAndWait();
-//            return;            
-//        }
-//        
-//        for(int i = 0; i < associatedPartsTable.getItems().size(); i++){
-//            product.AddAssociatedPart(associatedPartsTable.getItems().get(i));
-//        }
-//        Inventory.AddProduct(product);
-//        productAssociatedParts.removeAll(productAssociatedParts);
-//        productParts.removeAll(productParts);
-//        returnToMainScreen(event);
-//    }
-    
-//    @FXML
-//    private void cancelClick(ActionEvent event) throws IOException {
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//            alert.setContentText("Are you sure you would like to cancel your changes?");
-//            alert.setHeaderText(null);
-//            Optional<ButtonType> result = alert.showAndWait();
-//            if(result.get() == ButtonType.OK)
-//                returnToMainScreen(event);
-//            else
-//                return;
-//        
-//        productAssociatedParts.removeAll(productAssociatedParts);
-//        productParts.removeAll(productParts);
-//        returnToMainScreen(event);
-//    }
     
     @FXML
     private void returnToAppointmentScreen(ActionEvent event) throws IOException{
@@ -299,38 +283,27 @@ public class AppointmentsScreenController implements Initializable {
     }
     
     @FXML
-    private void customerSearchButtonClick() {
-//        loadSearchPartData(partsSearchTextField.getText());
-    }
-    
-    @FXML
-    private void loadSearchCustomerData(String searchCriteria){
-//        partsTable.setItems(Inventory.getAllMatchingPartNames(searchCriteria));
-    }
-    
-    @FXML
-    private void addCustomerClick() {
-//        Part part = Inventory.lookupPart(partsTable.getSelectionModel().getSelectedItem().getPartID());
-//        productAssociatedParts.add(part);
-//        productParts.remove(part);
-//        LoadPartsTable();
-//        LoadAssociatedPartsTable();
-    }
-    
-    @FXML
-    private void deleteCustomerClick() {
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//            alert.setContentText("Are you sure you would like to unassociate this part from this product?");
-//            alert.setHeaderText(null);
-//            Optional<ButtonType> result = alert.showAndWait();
-//            if(result.get() == ButtonType.OK){
-//                Part part = Inventory.lookupPart(associatedPartsTable.getSelectionModel().getSelectedItem().getPartID());
-//                productParts.add(part);
-//                productAssociatedParts.remove(part);
-//                LoadPartsTable();
-//                LoadAssociatedPartsTable();
-//            }
-//            else
-//                return;
+    private void saveClick(ActionEvent event) throws IOException{
+        AppointmentModel appointment = new AppointmentModel();
+        Date date = new Date();
+        String startDate = dateChoiceBox.getSelectionModel().getSelectedItem().toString();
+        String startTime = startTimeChoiceBox.getSelectionModel().getSelectedItem().toString();
+        
+        appointment.setCustomerId(DatabaseConnection.getCustomerIdByCustomerName(customerChoiceBox.getSelectionModel().getSelectedItem().toString()));
+        appointment.setUserId(DatabaseConnection.getUserIdByUsername(contactChoiceBox.getSelectionModel().getSelectedItem().toString()));
+        appointment.setTitle(titleText.getText());
+        appointment.setDescription(descriptionText.getText());
+        appointment.setLocation(locationText.getText());
+        appointment.setContact(contactChoiceBox.getSelectionModel().getSelectedItem().toString());
+        appointment.setType(typeText.getText());
+        appointment.setUrl(urlText.getText());
+        appointment.setStart(DateHelper.convertLocalDateToUtcTimestamp(String.join(" ", startDate, startTime)));
+        appointment.setEnd(DateHelper.convertLocalDateToUtcTimestamp(endTimeLabelValue.getText()));
+        appointment.setCreateDate(DateHelper.convertLocalDateToUtcTimestamp(DateHelper.convertDateToCorrectFormatString(LocalDateTime.now())));
+        appointment.setCreatedBy(LoginScreenController.getCurrentUser());
+        appointment.setLastUpdate(DateHelper.convertLocalDateToUtcTimestamp(DateHelper.convertDateToCorrectFormatString(LocalDateTime.now())));
+        appointment.setLastUpdateBy(LoginScreenController.getCurrentUser());
+        DatabaseConnection.insertNewAppointment(appointment);
+        returnToAppointmentScreen(event);
     }
 }
